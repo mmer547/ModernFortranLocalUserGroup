@@ -8,22 +8,22 @@ C
       dimension PSI(MX,MY),OMG(MX,MY),TMP(MX,MY)
 C
 C***  READ AND CALCULATE PARAMETERS
-  99  write(*,*) 'INPUT NUMBER OF MESH--AZIMUSAL & RADIAL(<51) (40,40)'
-       read(*,*) NA,NB
+  99  print *, 'INPUT NUMBER OF MESH--AZIMUSAL & RADIAL(<51) (40,40)'
+       read *, NA,NB
          NX = NA + 1
          NY = NB + 1
-      write(*,*) 'INPUT REYNOLDS NUMBER RE (40)'
-       read(*,*) RE
-      write(*,*) 'INPUT TIME & SPACE(RADIAL) INCREMENT DT&DY (0.01,0.1)'
-       read(*,*) DT,DY
-      write(*,*) 'INPUT NUMBER OF TIME STEP (500)'
-       read(*,*) NMAX
-      write(*,*) 'INPUT MAX. NUMBERS OF ITERATION FOR POISSON EQ. (40)'
-       read(*,*) KK
-      write(*,*) 'INPUT ACCELARATION PARAMETER (1.0)'
-       read(*,*) CONST1
-      write(*,*) 'INPUT MAXNUM ERROR (0.01)'
-       read(*,*) EPS
+      print *, 'INPUT REYNOLDS NUMBER RE (40)'
+       read *, RE
+      print *, 'INPUT TIME & SPACE(RADIAL) INCREMENT DT&DY (0.01,0.1)'
+       read *, DT,DY
+      print *, 'INPUT NUMBER OF TIME STEP (500)'
+       read *, NMAX
+      print *, 'INPUT MAX. NUMBERS OF ITERATION FOR POISSON EQ. (40)'
+       read *, KK
+      print *, 'INPUT ACCELARATION PARAMETER (1.0)'
+       read *, CONST1
+      print *, 'INPUT MAXNUM ERROR (0.01)'
+       read *, EPS
 C
          PAI = ATAN(1.)*4.
          DX = PAI/FLOAT(NX-1)
@@ -81,7 +81,7 @@ C*** SOLVE POISSON EQUATION FOR PSI (STEP2)
         if(ERR.LT .0.00001) go to 65
    50   continue
    65   if(MOD(N,5).EQ.0)
-     1  write(*,*) 'ITERATION NO. =',K,'   ERROR(L2) =',ERR
+     1  print *, 'ITERATION NO. =',K,'   ERROR(L2) =',ERR
 C
 C***  CALCURATE NEW OMEGA (STEP3)
         do 70 J = 2,NY-1
@@ -105,19 +105,19 @@ C
    80   continue
 C
         if(MOD(N,5).EQ.0)
-     1  write(*,*) N,' *** ERROR(OMG)=' ,ERR1, '  ***'
+     1  print *, N,' *** ERROR(OMG)=' ,ERR1, '  ***'
         if(N.GT.10.AND.ERR1.LE.EPS) go to 90
 C
   100 continue
 C***  END OF MAIN LOOP
 C
-      write(*,*) 'NOT CONVERGE!  DO YOU WANT CONTINUE? (YES=1)'
-      read(*,*) II
+      print *, 'NOT CONVERGE!  DO YOU WANT CONTINUE? (YES=1)'
+      read *, II
       if(II.EQ.1) go to 99
    90 call OUT2(PSI,MX,MY,NX,NY,DY)
 C     
-      write(*,*) 'Save data? Yes=1, No=0'
-        read(*,*) ISAVE
+      print *, 'Save data? Yes=1, No=0'
+        read *, ISAVE
         if(ISAVE.EQ.1) THEN
           open(8,FIle='Result.txt')
           do 95 J = 1,NY
