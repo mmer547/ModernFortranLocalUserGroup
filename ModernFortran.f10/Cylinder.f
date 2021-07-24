@@ -78,7 +78,7 @@ C*** SOLVE POISSON EQUATION FOR PSI (STEP2)
                ERR = ERR+(RHS-PSI(I,J))**2
           PSI(I,J) = PSI(I,J)*(1.-CONST1)+RHS*CONST1
    60     continue
-        if(ERR.LT .0.00001) go to 65
+        if(ERR.LT .0.00001) exit
    50   continue
    65   if(MOD(N,5).EQ.0)
      1  print *, 'ITERATION NO. =',K,'   ERROR(L2) =',ERR
