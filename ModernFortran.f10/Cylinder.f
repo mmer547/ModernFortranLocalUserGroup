@@ -3,6 +3,7 @@ C     UNSTEADY FLOW AROUND CIRCULAR CYLINDER
 C           PSI-OMEGA METHOD
 C**********************************************************************
 C
+      program main
       PARAMETER(MX=51,MY=51)
       DIMENSION PSI(MX,MY),OMG(MX,MY),TMP(MX,MY)
 C
@@ -125,7 +126,7 @@ C
    95     CONTINUE
         END IF
       STOP
-      END
+      end program main
 C
       SUBROUTINE OUT2(A,MX,MY,NX,NY,DY)
       DIMENSION A(MX,MY),INDEX(39,15)
