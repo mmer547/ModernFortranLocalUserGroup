@@ -57,7 +57,7 @@ program main
   !***  MAIN LOOP
   do N = 1, NMAX
     FFF = (N-1)/30.
-    if(FFF.GE.1) FFF = 1.
+    if(FFF.ge.1) FFF = 1.
 
     !***  BOUNDARY CONDITON (STEP1)
     !***  ON THE CYLINDER
@@ -93,9 +93,9 @@ program main
           PSI(I, J) = PSI(I, J)*(1. - CONST1) + RHS*CONST1
         end do
       end do
-      if(ERR.LT.0.00001) exit
+      if(ERR.lt.0.00001) exit
     end do
-    if(MOD(N, 5).EQ.0) &
+    if(MOD(N, 5).eq.0) &
       print *, 'ITERATION NO. =', K , '   ERROR(L2) =', ERR
 
     !***  CALCURATE NEW OMEGA (STEP3)
@@ -115,23 +115,23 @@ program main
     do J = 2, NY-1
       do I = 2, NX-1
         BB = ABS(OMG(I, J) - TMP(I, J))
-        if(BB.GE.ERR1) ERR1 = BB
+        if(BB.ge.ERR1) ERR1 = BB
       end do
     end do
-    if(MOD(N, 5).EQ.0) &
+    if(MOD(N, 5).eq.0) &
       print *, N, ' *** ERROR(OMG)=' , ERR1 , '  ***'
-    if(N.GT.10.AND.ERR1.LE.EPS) go to 90
+    if(N.gt.10.and.ERR1.le.EPS) go to 90
   end do
 
   !***  END OF MAIN LOOP
   print *, 'NOT CONVERGE!  DO YOU WANT CONTINUE? (YES=1)'
   read *, II
-  if(II.EQ.1) go to 99
+  if(II.eq.1) go to 99
   90 call OUT2(PSI, MX, MY, NX, NY, DY)
  
   print *, 'Save data? Yes=1, No=0'
   read *, ISAVE
-  if(ISAVE.EQ.1) then
+  if(ISAVE.eq.1) then
     open(8, FIle='Result.txt')
     do J = 1, NY
       do I = 1, NX
@@ -161,7 +161,7 @@ subroutine OUT2(A, MX, MY, NX, NY, DY)
 
   do J = 1, NY
     do I = 1, NX
-      if(A(I, J).LT.AMIN) AMIN = A(I, J)
+      if(A(I, J).lt.AMIN) AMIN = A(I, J)
     end do
   end do
 
@@ -175,24 +175,24 @@ subroutine OUT2(A, MX, MY, NX, NY, DY)
 
   do J = 1, NY
     do I = 1, NX
-      if(A(I, J).GT.AMAX) AMAX = A(I, J)
+      if(A(I, J).gt.AMAX) AMAX = A(I, J)
     end do
   end do
 
   do J = 1, 15
     do I = 1, 39
       IND = 0
-      if(I.NE.25) RT = FLOAT(J-1)/ABS(FLOAT(I-25))
+      if(I.ne.25) RT = FLOAT(J-1)/ABS(FLOAT(I-25))
       TET = PAI/2.
-      if(I.LE.24) TET = PAI - ATAN(RT)
-      if(I.GE.26) TET = ATAN(RT)
+      if(I.le.24) TET = PAI - ATAN(RT)
+      if(I.ge.26) TET = ATAN(RT)
       RR = SQRT(FLOAT((I-25)**2 + (J-1)**2))/3.5
-      if(RR.NE.0.) JJ = ALOG(RR)/DY + 1
+      if(RR.ne.0.) JJ = ALOG(RR)/DY + 1
       II = TET/DX + 1.5
-      if((II.GE.1.AND.II.LE.NX).AND.(JJ.GE.1.AND.JJ.LE.NY)) then
+      if((II.ge.1.and.II.le.NX).and.(JJ.ge.1.and.JJ.le.NY)) then
         AA = A(II, JJ)*100./AMAX
         IND = AA + 2
-        if(AA.LT.0.) IND = 8
+        if(AA.lt.0.) IND = 8
       end if
       INDEX(I, J) = MOD(IND, 10)*11
     end do
