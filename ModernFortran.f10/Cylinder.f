@@ -146,7 +146,7 @@ C
       stop
       end program main
 C
-      SUBROUTINE OUT2(A,MX,MY,NX,NY,DY)
+      subroutine OUT2(A,MX,MY,NX,NY,DY)
       implicit none
       real A(MX,MY)
       integer INDEX(39,15)
@@ -204,7 +204,7 @@ C
       end do
   600   format(1H,39I2)
       return
-      END     
+      end subroutine
 
 
         
