@@ -4,8 +4,21 @@ C           PSI-OMEGA METHOD
 C**********************************************************************
 C
       program main
-      parameter(MX=51,MY=51)
-      dimension PSI(MX,MY),OMG(MX,MY),TMP(MX,MY)
+        implicit none
+        integer, parameter :: MX=51, MY=51
+        real PSI(MX, MY), OMG(MX, MY), TMP(MX, MY)
+        integer NA, NB, NX, NY
+        integer RE
+        real DT, DY
+        integer NMAX, K, KK
+        real CONST1, EPS
+        real PAI
+        real DX, DXI, DYI, REI, DX2, DY2, FCT
+        integer J, I, N, II, ISAVE
+        real FFF
+        real ERR, ERR1
+        real RHS
+        real BB
 C
 C***  READ AND CALCULATE PARAMETERS
   99  print *, 'INPUT NUMBER OF MESH--AZIMUSAL & RADIAL(<51) (40,40)'
@@ -134,7 +147,15 @@ C
       end program main
 C
       SUBROUTINE OUT2(A,MX,MY,NX,NY,DY)
-      dimension A(MX,MY),INDEX(39,15)
+      implicit none
+      real A(MX,MY)
+      integer INDEX(39,15)
+      real PAI
+      integer MX, MY, NX, NY
+      real DX, DY
+      real AMIN, AMAX
+      integer J, I, IND, II, JJ
+      real RT, TET, RR, AA
 C
       PAI=4.*ATAN(1.)
       DX=PAI/FLOAT(NX-1)
