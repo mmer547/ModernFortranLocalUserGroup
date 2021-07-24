@@ -86,17 +86,17 @@
             ERR=0.
           do J = 2,NY-1
             do I = 2,NX-1
-              RHS = ((PSI(I+1,J)+PSI(I-1,J))*DX2
-     1             +(PSI(I,J+1)+PSI(I,J-1))*DY2
-     2             +OMG(I,J)*EXP(2.*(J-1)*DY))*FCT
+              RHS = ((PSI(I+1,J)+PSI(I-1,J))*DX2 &
+                  +(PSI(I,J+1)+PSI(I,J-1))*DY2 &
+                  +OMG(I,J)*EXP(2.*(J-1)*DY))*FCT
               ERR = ERR+(RHS-PSI(I,J))**2
               PSI(I,J) = PSI(I,J)*(1.-CONST1)+RHS*CONST1
             end do
           end do
-        if(ERR.LT .0.00001) exit
+        if(ERR.LT.0.00001) exit
         end do
-        if(MOD(N,5).EQ.0)
-     1  print *, 'ITERATION NO. =',K,'   ERROR(L2) =',ERR
+        if(MOD(N,5).EQ.0) &
+       print *, 'ITERATION NO. =',K,'   ERROR(L2) =',ERR
 !
 !***  CALCURATE NEW OMEGA (STEP3)
         do J = 2,NY-1
@@ -104,11 +104,11 @@
 !
             TMP(I,J) = OMG(I,J)
 !
-            RHS = ((OMG(I+1,J)-2.*OMG(I,J)+OMG(I-1,J))*DX2
-     1           +(OMG(I,J+1)-2.*OMG(I,J)+OMG(I,J-1))*DY2)*REI
-     2           +((PSI(I+1,J)-PSI(I-1,J))*(OMG(I,J+1)-OMG(I,J-1))
-     3           -(PSI(I,J+1)-PSI(I,J-1))*(OMG(I+1,J)-OMG(I-1,J)))
-     4           *DXI*DYI/4.
+            RHS = ((OMG(I+1,J)-2.*OMG(I,J)+OMG(I-1,J))*DX2 &
+                +(OMG(I,J+1)-2.*OMG(I,J)+OMG(I,J-1))*DY2)*REI &
+                +((PSI(I+1,J)-PSI(I-1,J))*(OMG(I,J+1)-OMG(I,J-1)) &
+                -(PSI(I,J+1)-PSI(I,J-1))*(OMG(I+1,J)-OMG(I-1,J))) &
+                *DXI*DYI/4.
             OMG(I,J) = OMG(I,J)+DT*RHS*EXP(-2.*(J-1)*DY)
           end do
         end do
@@ -121,8 +121,8 @@
           end do
         end do
 !
-        if(MOD(N,5).EQ.0)
-     1  print *, N,' *** ERROR(OMG)=' ,ERR1, '  ***'
+        if(MOD(N,5).EQ.0) &
+       print *, N,' *** ERROR(OMG)=' ,ERR1, '  ***'
         if(N.GT.10.AND.ERR1.LE.EPS) go to 90
 !
       end do
