@@ -1,8 +1,8 @@
-C**********************************************************************
-C     UNSTEADY FLOW AROUND CIRCULAR CYLINDER
-C           PSI-OMEGA METHOD
-C**********************************************************************
-C
+!**********************************************************************
+!     UNSTEADY FLOW AROUND CIRCULAR CYLINDER
+!           PSI-OMEGA METHOD
+!**********************************************************************
+!
       program main
         implicit none
         integer, parameter :: MX=51, MY=51
@@ -19,8 +19,8 @@ C
         real ERR, ERR1
         real RHS
         real BB
-C
-C***  READ AND CALCULATE PARAMETERS
+!
+!***  READ AND CALCULATE PARAMETERS
   99  print *, 'INPUT NUMBER OF MESH--AZIMUSAL & RADIAL(<51) (40,40)'
        read *, NA,NB
          NX = NA + 1
@@ -37,7 +37,7 @@ C***  READ AND CALCULATE PARAMETERS
        read *, CONST1
       print *, 'INPUT MAXNUM ERROR (0.01)'
        read *, EPS
-C
+!
          PAI = ATAN(1.)*4.
          DX = PAI/FLOAT(NX-1)
          DXI = 1./DX
@@ -46,41 +46,41 @@ C
          DX2 = DXI*DXI
          DY2 = DYI*DYI
          FCT = 1./(2.*DX2+2.*DY2)
-C
-C***  INITIAL CONDITION FOR PSI AND OMEGA
+!
+!***  INITIAL CONDITION FOR PSI AND OMEGA
       do J = 1,NY
         do I = 1,NX
           PSI(I,J) = EXP((J-1)*DY)*SIN(DX*(I-1))
           OMG(I,J) = 0.0
         end do
       end do
-C
-C***  MAIN LOOP
-C
+!
+!***  MAIN LOOP
+!
       do N = 1,NMAX
          FFF = (N-1)/30.
          if(FFF.GE.1) FFF=1.
-C
-C***  BOUNDARY CONDITON (STEP1)
-C***  ON THE CYLINDER
+!
+!***  BOUNDARY CONDITON (STEP1)
+!***  ON THE CYLINDER
         do I = 1,NX
           OMG(I,1) = -2.*PSI(I,2)*DYI*DYI*FFF
           PSI(I,1) = 0.
         end do
-C*** ON THE FAR BOUNDARY
+!*** ON THE FAR BOUNDARY
         do I = 1,NX
           PSI(I,NY) = EXP((NY-1)*DY)*SIN(DX*(I-1))
           OMG(I,NY) = 0.
         end do
-C*** ALONG THE SYMMETRY LINE
+!*** ALONG THE SYMMETRY LINE
         do J = 1,NY
           PSI(1,J) = 0.
           OMG(1,J) = 0.
           PSI(MX,J)=0.
           OMG(MX,J)=0.
         end do
-C
-C*** SOLVE POISSON EQUATION FOR PSI (STEP2)
+!
+!*** SOLVE POISSON EQUATION FOR PSI (STEP2)
         FCT = 1./(2.*DX2+2.*DY2)
         do K = 1,KK
             ERR=0.
@@ -97,13 +97,13 @@ C*** SOLVE POISSON EQUATION FOR PSI (STEP2)
         end do
         if(MOD(N,5).EQ.0)
      1  print *, 'ITERATION NO. =',K,'   ERROR(L2) =',ERR
-C
-C***  CALCURATE NEW OMEGA (STEP3)
+!
+!***  CALCURATE NEW OMEGA (STEP3)
         do J = 2,NY-1
           do I = 2,NX-1
-C
+!
             TMP(I,J) = OMG(I,J)
-C
+!
             RHS = ((OMG(I+1,J)-2.*OMG(I,J)+OMG(I-1,J))*DX2
      1           +(OMG(I,J+1)-2.*OMG(I,J)+OMG(I,J-1))*DY2)*REI
      2           +((PSI(I+1,J)-PSI(I-1,J))*(OMG(I,J+1)-OMG(I,J-1))
@@ -112,7 +112,7 @@ C
             OMG(I,J) = OMG(I,J)+DT*RHS*EXP(-2.*(J-1)*DY)
           end do
         end do
-C
+!
         ERR1 = 0.
         do J = 2,NY-1
           do I = 2,NX-1
@@ -120,19 +120,19 @@ C
             if(BB.GE.ERR1) ERR1 = BB
           end do
         end do
-C
+!
         if(MOD(N,5).EQ.0)
      1  print *, N,' *** ERROR(OMG)=' ,ERR1, '  ***'
         if(N.GT.10.AND.ERR1.LE.EPS) go to 90
-C
+!
       end do
-C***  END OF MAIN LOOP
-C
+!***  END OF MAIN LOOP
+!
       print *, 'NOT CONVERGE!  DO YOU WANT CONTINUE? (YES=1)'
       read *, II
       if(II.EQ.1) go to 99
    90 call OUT2(PSI,MX,MY,NX,NY,DY)
-C     
+!     
       print *, 'Save data? Yes=1, No=0'
         read *, ISAVE
         if(ISAVE.EQ.1) THEN
@@ -145,7 +145,7 @@ C
         end if
       stop
       end program main
-C
+!
       subroutine OUT2(A,MX,MY,NX,NY,DY)
       implicit none
       real A(MX,MY)
@@ -156,10 +156,10 @@ C
       real AMIN, AMAX
       integer J, I, IND, II, JJ
       real RT, TET, RR, AA
-C
+!
       PAI=4.*ATAN(1.)
       DX=PAI/FLOAT(NX-1)
-C
+!
       AMIN=A(1,1)
       do J=1,NY
         do I=1,NX
@@ -177,7 +177,7 @@ C
           if(A(I,J).GT.AMAX) AMAX=A(I,J)
         end do
       end do
-C
+!
       do J=1,15
         do I=1,39
           IND=0
