@@ -139,7 +139,6 @@ program main
       end do
     end do
   end if
-  stop
 end program main
 
 
